@@ -6,7 +6,7 @@ import { OBJECTIVES, type ObjectiveKey } from "@/lib/ads-store";
 export function Frame({ children, nav = true }: { children: ReactNode; nav?: boolean }) {
   return (
     <div className="mx-auto min-h-screen max-w-md app-bg relative shadow-xl">
-      <div className={nav ? "pb-20" : "pb-6"}>{children}</div>
+      <div className={"pb-24"}>{children}</div>
       {nav && <BottomNav />}
     </div>
   );

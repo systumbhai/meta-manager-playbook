@@ -7,7 +7,7 @@ import { Card, Frame, ObjectiveIcon, PageHeader } from "@/components/ads/Shell";
 import { actions, CTAS, money, OBJECTIVES, useAds, useCurrentAccount, type Campaign, type ObjectiveKey } from "@/lib/ads-store";
 
 export const Route = createFileRoute("/create/$objective")({
-  validateSearch: (s: Record<string, unknown>): { edit?: string } => (typeof s.edit === "string" ? { edit: s.edit } : {}),
+  validateSearch: (s: Record<string, unknown>): { edit?: string } => (typeof s["edit"] === "string" ? { edit: s["edit"] as string } : {}),
   head: () => ({
     meta: [
       { title: "Set up campaign – Ads Manager" },
@@ -31,20 +31,21 @@ function Builder() {
   const existing = useAds((s) => s.campaigns.find((c) => c.id === edit));
   const nav = useNavigate();
   const [step, setStep] = useState(0);
-  const [f, setF] = useState(() => existing ?? {
+  type Form = Omit<Campaign, "id" | "results" | "spent" | "impressions" | "reach" | "clicks" | "createdAt" | "recommendations" | "status">;
+  const [f, setF] = useState<Form>(() => existing ?? {
     accountId: acct.id,
     name: `New ${OBJECTIVES[obj].label} Campaign`,
     objective: obj,
-    budgetType: "daily" as const,
+    budgetType: "daily",
     budget: acct.currency === "INR" ? 200 : 5,
     startDate: today,
     endDate: null as string | null,
-    audience: { location: "India", ageMin: 18, ageMax: 65, gender: "all" as const, interests: "" },
-    placements: "advantage" as const,
+    audience: { location: "India", ageMin: 18, ageMax: 65, gender: "all", interests: "" },
+    placements: "advantage",
     platforms: ["Facebook", "Instagram", "Messenger"],
     ad: { headline: "", primaryText: "", cta: "Learn more", url: "https://", image: "" },
   });
-  const up = (p: Partial<Campaign>) => setF((x) => ({ ...x, ...p }) as typeof x);
+  const up = (p: Partial<Campaign>) => setF((x) => ({ ...x, ...p }));
   const aud = (p: Partial<Campaign["audience"]>) => setF((x) => ({ ...x, audience: { ...x.audience, ...p } }));
   const ad = (p: Partial<Campaign["ad"]>) => setF((x) => ({ ...x, ad: { ...x.ad, ...p } }));
 
@@ -68,7 +69,7 @@ function Builder() {
       toast.success("Changes published");
       nav({ to: "/campaign/$id", params: { id: existing.id } });
     } else {
-      const id = actions.createCampaign({ ...f, accountId: acct.id } as Parameters<typeof actions.createCampaign>[0]);
+      const id = actions.createCampaign({ ...f, accountId: acct.id });
       toast.success("Campaign published · In review", { description: acct.paymentMethods.length ? "Your ad will start running after review." : "Add a payment method so your ads can run." });
       nav({ to: "/campaign/$id", params: { id } });
     }
@@ -160,7 +161,7 @@ function Builder() {
         )}
       </div>
 
-      <div className="sticky bottom-0 flex gap-2 border-t bg-card p-3">
+      <div className="fixed bottom-0 left-1/2 z-30 flex w-full max-w-md -translate-x-1/2 gap-2 border-t bg-card p-3">
         {step > 0 && <button onClick={() => setStep(step - 1)} className="flex-1 rounded-md bg-secondary py-2.5 font-medium">Back</button>}
         {step < STEPS.length - 1
           ? <button onClick={() => setStep(step + 1)} className="flex-1 rounded-md bg-primary py-2.5 font-medium text-primary-foreground">Next</button>
