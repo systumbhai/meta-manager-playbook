@@ -12,7 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountsRouteImport } from './routes/accounts'
 import { Route as BillingRouteImport } from './routes/billing'
+import { Route as HelpRouteImport } from './routes/help'
+import { Route as RecommendationsRouteImport } from './routes/recommendations'
+import { Route as CampaignIdRouteImport } from './routes/campaign.$id'
 import { Route as CreateIndexRouteImport } from './routes/create.index'
+import { Route as CreateObjectiveRouteImport } from './routes/create.$objective'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,9 +33,29 @@ const BillingRoute = BillingRouteImport.update({
   path: '/billing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecommendationsRoute = RecommendationsRouteImport.update({
+  id: '/recommendations',
+  path: '/recommendations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignIdRoute = CampaignIdRouteImport.update({
+  id: '/campaign/$id',
+  path: '/campaign/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CreateIndexRoute = CreateIndexRouteImport.update({
   id: '/create/',
   path: '/create/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreateObjectiveRoute = CreateObjectiveRouteImport.update({
+  id: '/create/$objective',
+  path: '/create/$objective',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -39,12 +63,20 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accounts': typeof AccountsRoute
   '/billing': typeof BillingRoute
+  '/help': typeof HelpRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/campaign/$id': typeof CampaignIdRoute
+  '/create/$objective': typeof CreateObjectiveRoute
   '/create/': typeof CreateIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accounts': typeof AccountsRoute
   '/billing': typeof BillingRoute
+  '/help': typeof HelpRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/campaign/$id': typeof CampaignIdRoute
+  '/create/$objective': typeof CreateObjectiveRoute
   '/create': typeof CreateIndexRoute
 }
 export interface FileRoutesById {
@@ -52,20 +84,53 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/accounts': typeof AccountsRoute
   '/billing': typeof BillingRoute
+  '/help': typeof HelpRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/campaign/$id': typeof CampaignIdRoute
+  '/create/$objective': typeof CreateObjectiveRoute
   '/create/': typeof CreateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/accounts' | '/billing' | '/create/'
+  fullPaths:
+    | '/'
+    | '/accounts'
+    | '/billing'
+    | '/help'
+    | '/recommendations'
+    | '/campaign/$id'
+    | '/create/$objective'
+    | '/create/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/accounts' | '/billing' | '/create'
-  id: '__root__' | '/' | '/accounts' | '/billing' | '/create/'
+  to:
+    | '/'
+    | '/accounts'
+    | '/billing'
+    | '/help'
+    | '/recommendations'
+    | '/campaign/$id'
+    | '/create/$objective'
+    | '/create'
+  id:
+    | '__root__'
+    | '/'
+    | '/accounts'
+    | '/billing'
+    | '/help'
+    | '/recommendations'
+    | '/campaign/$id'
+    | '/create/$objective'
+    | '/create/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountsRoute: typeof AccountsRoute
   BillingRoute: typeof BillingRoute
+  HelpRoute: typeof HelpRoute
+  RecommendationsRoute: typeof RecommendationsRoute
+  CampaignIdRoute: typeof CampaignIdRoute
+  CreateObjectiveRoute: typeof CreateObjectiveRoute
   CreateIndexRoute: typeof CreateIndexRoute
 }
 
@@ -92,11 +157,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BillingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recommendations': {
+      id: '/recommendations'
+      path: '/recommendations'
+      fullPath: '/recommendations'
+      preLoaderRoute: typeof RecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaign/$id': {
+      id: '/campaign/$id'
+      path: '/campaign/$id'
+      fullPath: '/campaign/$id'
+      preLoaderRoute: typeof CampaignIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/create/': {
       id: '/create/'
       path: '/create'
       fullPath: '/create/'
       preLoaderRoute: typeof CreateIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/create/$objective': {
+      id: '/create/$objective'
+      path: '/create/$objective'
+      fullPath: '/create/$objective'
+      preLoaderRoute: typeof CreateObjectiveRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -106,6 +199,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountsRoute: AccountsRoute,
   BillingRoute: BillingRoute,
+  HelpRoute: HelpRoute,
+  RecommendationsRoute: RecommendationsRoute,
+  CampaignIdRoute: CampaignIdRoute,
+  CreateObjectiveRoute: CreateObjectiveRoute,
   CreateIndexRoute: CreateIndexRoute,
 }
 export const routeTree = rootRouteImport
