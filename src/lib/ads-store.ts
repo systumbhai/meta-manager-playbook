@@ -117,7 +117,6 @@ function set(fn: (s: State) => State) {
 
 export function hydrateStore() {
   if (loaded || typeof window === "undefined") return;
-  loaded = true;
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) {
@@ -127,6 +126,8 @@ export function hydrateStore() {
   } catch {
     /* ignore */
   }
+  loaded = true;
+  listeners.forEach((l) => l());
 }
 
 export function useAds<T>(sel: (s: State) => T): T {
@@ -187,3 +188,14 @@ export function money(n: number, cur: "INR" | "USD") {
 }
 export const num = (n: number) => new Intl.NumberFormat("en-IN").format(n);
 export const STATUS_LABEL: Record<CampaignStatus, string> = { active: "Active", paused: "Off", in_review: "In review", completed: "Completed" };
+
+export function useStoreReady() {
+  return useSyncExternalStore(
+    (l) => {
+      listeners.add(l);
+      return () => listeners.delete(l);
+    },
+    () => loaded,
+    () => false,
+  );
+}

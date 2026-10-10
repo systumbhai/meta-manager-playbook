@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { AdPreview } from "@/components/ads/AdPreview";
 import { statusColor } from "@/components/ads/CampaignCard";
 import { Card, Frame, ObjectiveIcon, PageHeader } from "@/components/ads/Shell";
-import { actions, money, num, OBJECTIVES, STATUS_LABEL, useAds } from "@/lib/ads-store";
+import { actions, money, num, OBJECTIVES, STATUS_LABEL, useAds, useStoreReady } from "@/lib/ads-store";
 
 export const Route = createFileRoute("/campaign/$id")({
   head: () => ({
@@ -28,6 +28,9 @@ function Detail() {
   const nav = useNavigate();
   const [budgetOpen, setBudgetOpen] = useState(false);
   const [budget, setBudget] = useState("");
+  const ready = useStoreReady();
+
+  if (!ready && !c) return <Frame><PageHeader title="Campaign" /></Frame>;
 
   if (!c || !acct) return (
     <Frame><PageHeader title="Campaign" /><p className="p-8 text-center text-muted-foreground">This campaign no longer exists. <Link to="/" className="text-primary">Go back</Link></p></Frame>
