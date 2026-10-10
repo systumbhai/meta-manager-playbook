@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- App state (ad accounts, campaigns, billing) lives in a client store in src/lib/ads-store.ts persisted to localStorage; no backend yet, so data is per-browser.
