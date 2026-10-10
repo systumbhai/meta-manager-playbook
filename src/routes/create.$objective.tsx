@@ -63,7 +63,7 @@ function Builder() {
   const reach = Math.round(f.budget * (acct.currency === "INR" ? 12 : 900) * (f.audience.gender === "all" ? 1 : 0.55));
 
   const publish = () => {
-    if (errors.length) return toast.error(errors[0]);
+    if (errors.length) { toast.error(errors[0]); return; }
     if (existing) {
       actions.updateCampaign(existing.id, f);
       toast.success("Changes published");

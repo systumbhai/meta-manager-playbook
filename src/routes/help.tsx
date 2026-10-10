@@ -16,7 +16,7 @@ export const Route = createFileRoute("/help")({
   component: Help,
 });
 
-const FAQ = [
+const FAQ: [string, string][] = [
   ["How do I create a campaign?", "Tap the + button on Home, choose Create campaign, pick an objective, then set budget, audience, placements and your ad before publishing."],
   ["Why is my ad in review?", "Every new ad is checked against advertising standards. Most reviews finish within 24 hours."],
   ["When am I charged?", "With prepaid funds, money is deducted about once a day while your ads run. If funds run out, ads pause."],
