@@ -3,7 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Frame, ObjectiveIcon, PageHeader } from "@/components/ads/Shell";
 import { OBJECTIVES, type ObjectiveKey } from "@/lib/ads-store";
-import { DuplicateSheet } from "./index";
+import { DuplicateSheet } from "@/components/ads/DuplicateSheet";
 
 export const Route = createFileRoute("/create/")({
   head: () => ({
