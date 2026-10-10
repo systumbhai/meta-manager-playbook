@@ -140,7 +140,7 @@ export function useAds<T>(sel: (s: State) => T): T {
   );
 }
 
-export const useCurrentAccount = () => useAds((s) => s.accounts.find((a) => a.id === s.selectedAccountId) ?? s.accounts[0]);
+export const useCurrentAccount = () => useAds((s) => (s.accounts.find((a) => a.id === s.selectedAccountId) ?? s.accounts[0])!);
 
 export const actions = {
   selectAccount: (id: string) => set((s) => ({ ...s, selectedAccountId: id })),
